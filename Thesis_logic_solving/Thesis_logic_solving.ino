@@ -13,6 +13,8 @@ Stepper steppers2(stepsofstepper, 10, 11, 12, 13);
 
 Stepper StepperMotors[3]= {steppers0, steppers1, steppers2};
 
+
+
 //IR STUFF
 
 #define NUM_SENSORS             3  // number of sensors used
@@ -32,13 +34,20 @@ boolean Master = false;
 byte MasterDefined;
 
 void setup(){
-  
   Serial.begin(9600);
 
 }
 
 void loop(){
   if (Master == false);
+  ///execute neutral behavior movement
+  if (Master == true);
+  ///set all steppers to slave stepper array here
+ Stepper Slaves[3]= StepperMotors[3];
+ 
+ ///does not work. 
+ Stepper Slaves[MasterDefined] = Stepper MasterStepper;
+  
 }
 
 void serialEvent(){
