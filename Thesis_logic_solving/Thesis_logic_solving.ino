@@ -1,4 +1,4 @@
-#include <Stepper.h>
+#include <AccelStepper.h>
 #include <QTRSensors.h>
 
 
@@ -7,14 +7,13 @@ const int stepsofstepper = 512;
 
 int stepCount= 0;
 
-Stepper steppers0(stepsofstepper, 2, 3, 4, 5);
-Stepper steppers1(stepsofstepper, 6, 7, 8, 9);
-Stepper steppers2(stepsofstepper, 10, 11, 12, 13);
+AccelStepper steppers0(stepsofstepper, 2, 3, 4, 5);
+AccelStepper steppers1(AccelStepper::FULL4WIRE, 6, 7, 8, 9);
+AccelStepper steppers2(AccelStepper::FULL4WIRE, 10, 11, 12, 13);
 
 ///arraySize should match at all times the actual amount of the stepperMotor array
 int arraySize = 3;
-Stepper stepperMotors[3]= {steppers0, steppers1, steppers2};
-
+AccelStepper stepperMotors[3]= {steppers0, steppers1, steppers2};
 
 
 //IR STUFF
@@ -45,9 +44,11 @@ void setup(){
 }
 
 void loop(){
+  //hannah look at logic here!!! later where do the if statements live etc.
+
 
   if(input){
-      for(int i=0; i< arraySize; i++){
+    for(int i=0; i< arraySize; i++){
 
       if(i == currentMasterIndex){
         //Fear(currentMasterIndex);
@@ -58,27 +59,28 @@ void loop(){
 
       }
       input = false;
-    
-  else{
+
+      else{
         for(int i=0; i< arraySize; i++){
-        //no people so all steppers set to neutral
+          //no people so all steppers set to neutral
         }
 
-  }
-  }
+      }
+    }
   }
 
 }
 void serialEvent(){
   while (Serial.available()){
-    currentMasterIndex = (byte)Serial.read();
+    currentMasterIndex = (int)Serial.read();
     ///finish up the handshaking
     thereIsInput = true;
-    
+
     //Clear current stepper behavious
 
   }
 }
+
 
 
 
