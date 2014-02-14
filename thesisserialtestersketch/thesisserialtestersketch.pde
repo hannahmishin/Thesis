@@ -14,19 +14,28 @@ void draw () {
  
   if( keyPressed) {
     if (key == '1'){
-      MasterDefined = 1;
+      MasterDefined = 0;
     }
     if (key == '2'){
       MasterDefined = 2;
     }
     
-    if (key == 3){
+    if (key == '3'){
       MasterDefined =3;
+      
+      
     }
      
     Port.write(MasterDefined); 
     println(MasterDefined);
-
+    Port.bufferUntil('\n');
      }
+  
   }
+  
+  
+//  if last valuem dont send
+//  change last value to current value
+//  
+//  int last value 
 
