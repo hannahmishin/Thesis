@@ -1,3 +1,4 @@
+
 #include <AccelStepper.h>
 #include <QTRSensors.h>
 
@@ -33,7 +34,7 @@ int IRthreshold = 800;
 
 int input = 0;
 int j=0; //temp int for looping through and stopping test step run
-
+int futureMasterIndex;
 int currentMasterIndex;
 int inByte;
 
@@ -48,47 +49,54 @@ void setup(){
 }
 
 void loop(){
-  Serial.println(j);
+  Serial.println(futureMasterIndex);
+
   //hannah look at logic here!!! later where do the if statements live etc.
   if(input == 1){
+    stepperMotors[currentMasterIndex].stop();
     if(j < 350){
-
+      //Serial.print("currentMasterIndex + ");
+      //Serial.println( currentMasterIndex);
       stepperMotors[currentMasterIndex].runSpeed();
-     // stepperMotors[1].runSpeed();
-      //stepperMotors[2].runSpeed();
+
       j++;
       if (j > 349){
         input = 0; 
-        j=0;
-        Serial.println("stop motors");
+        j=0;      
+        //        Serial.println("stop motors");
       }   
-    } 
+    }
+    delay(1); 
   }
-  delay(1);
+
 }
 
 void serialEvent(){
   while (Serial.available()){
-   inByte= Serial.read();
-    ///finish up the handshaking
+    inByte= (int)Serial.read();
+    if(inByte == '\n' || inByte == '\r'){
+      continue;
+    }
+    inByte -= '0';
     input = 1;
+    //    Serial.println( inByte);
     switch (inByte){
-      case '1':
+    case 1:
       currentMasterIndex=0;
       break;
-      case '2':
+    case 2:
       currentMasterIndex= 1;
       break;
-      case '3': 
+    case 3: 
       currentMasterIndex = 2;
-    } 
-    Serial.println("currentMasterIndex");
-    Serial.println( currentMasterIndex);
-delay (30);
+      break;
+
+    default: 
+      break;
+    }
+
   }
 }
-
-
 
 
 
